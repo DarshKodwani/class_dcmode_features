@@ -1010,16 +1010,26 @@ int primordial_analytic_spectrum(
                                  double * pk
                                  ) {
 
+// Darsh start //
   if (ppm->is_non_zero[index_md][index_ic1_ic2] == _TRUE_) {
-    *pk = ppm->amplitude[index_md][index_ic1_ic2]
-      *exp((ppm->tilt[index_md][index_ic1_ic2]-1.)*log(k/ppm->k_pivot)
-           + 0.5 * ppm->running[index_md][index_ic1_ic2] * pow(log(k/ppm->k_pivot), 2.));
-
+    if ( ppm->k_amp*(1 + ppm->dk_amp) <= k <= ppm->k_amp*(1 - ppm->dk_amp)) {
+      *pk = ppm->amplitude[index_md][index_ic1_ic2]*(1. + ppm->dAmp_k)
+	*exp((ppm->tilt[index_md][index_ic1_ic2]-1.)*log(k/ppm->k_pivot)
+	     + 0.5 * ppm->running[index_md][index_ic1_ic2] * pow(log(k/ppm->k_pivot), 2.));
+      printf("(POWER ADDED at k=%e, with amplitude %f)\n", k, ppm->dAmp_k ) ;
+      printf("(Normal  amplitude %f)\n",  ppm->amplitude[index_md][index_ic1_ic2] ) ;
+    }
+    else {
+      *pk = ppm->amplitude[index_md][index_ic1_ic2]
+	*exp((ppm->tilt[index_md][index_ic1_ic2]-1.)*log(k/ppm->k_pivot)
+	     + 0.5 * ppm->running[index_md][index_ic1_ic2] * pow(log(k/ppm->k_pivot), 2.)); }
   }
+
   else {
     *pk = 0.;
   }
 
+  // Darsh end //
   return _SUCCESS_;
 
 }

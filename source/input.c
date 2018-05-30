@@ -1572,8 +1572,13 @@ int input_read_parameters(
                "addabatic-decaying mode only support analytic_pk, set `P_k_ini type`=analytic_Pk");
 
   }
+    class_read_double("k_pivot",ppm->k_pivot);
+  // Darsh //
+    class_read_double("dAmp_k", ppm->dAmp_k);
+    class_read_double("k_amp", ppm->k_amp);
+    class_read_double("dk_amp", ppm->dk_amp);
+  // Darsh //
 
-  class_read_double("k_pivot",ppm->k_pivot);
 
   if (ppm->primordial_spec_type == two_scales) {
 
@@ -3135,6 +3140,11 @@ int input_default_params(
 
   ppm->primordial_spec_type = analytic_Pk;
   ppm->k_pivot = 0.05;
+  // Darsh //
+  ppm->k_amp = 0.05;
+  ppm->dk_amp = 0.5;
+  ppm->dAmp_k = 0.5;
+  // Darsh //
   ppm->A_s = 2.215e-9;
   ppm->n_s = 0.9619;
   ppm->alpha_s = 0.;
